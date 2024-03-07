@@ -1,4 +1,4 @@
-import { Injectable, WritableSignal, effect, signal } from '@angular/core';
+import { Injectable, WritableSignal, computed, effect, signal } from '@angular/core';
 import { TodoItem } from './models/todo-item.model';
 
 @Injectable({
@@ -8,6 +8,24 @@ export class TodosService {
   todos: WritableSignal<TodoItem[]> = signal(
     window.localStorage.getItem('todos') ? JSON.parse(window.localStorage.getItem('todos') as string) : []
   );
+
+  filter = signal('all');
+  filteredTodos = computed(() => {
+    const filter = this.filter();
+    let filteredData = [];
+    switch (filter) {
+      case 'active':
+        filteredData = this.todos().filter(todo => !todo.completed);
+        break;
+      case 'completed':
+        filteredData = this.todos().filter(todo => todo.completed);
+        break;
+      default:
+        filteredData = this.todos();
+        break;
+    }
+    return filteredData;
+  });
 
   isFirstTimeTriggered = true;
   updateLocalStorageEffectRef = effect(() => {
@@ -34,6 +52,16 @@ export class TodosService {
         return { ...todo, completed: !todo.completed };
       }
       return todo;
+    }));
+  }
+
+  toggleAll(checked: boolean) {
+    const filteredTodoIds = this.filteredTodos().map(todo => todo.id);
+    this.todos.update(todos => todos.map(item => {
+      if (filteredTodoIds.includes(item.id)) {
+        return { ...item, completed: checked };
+      }
+      return item;
     }));
   }
 

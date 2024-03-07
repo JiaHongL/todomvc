@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject, input } from '@angular/core';
 
 import { HeaderComponent } from './components/header.component';
 import { FooterComponent } from './components/footer.component';
@@ -16,7 +16,7 @@ import { TodosService } from './todos.service';
     CommonModule,
     HeaderComponent,
     FooterComponent,
-    InfoComponent, 
+    InfoComponent,
     TodoItemComponent,
     ToggleAllComponent
   ],
@@ -25,12 +25,12 @@ import { TodosService } from './todos.service';
         <app-header (addTodo)="todosService.add($event)" />
         <!-- This section should be hidden by default and shown when there are todos -->
         <section class="main">
-          @if(filteredTodos().length > 0){
-            <app-toggle-all/> 
+          @if(todosService.filteredTodos().length > 0){
+            <app-toggle-all (toggleAll)="todosService.toggleAll($event)"/> 
           }
           <ul class="todo-list">
             <!-- These are here just to show the structure of the list items -->
-            @for (todo of filteredTodos(); track todo.id) {
+            @for (todo of todosService.filteredTodos(); track todo.id) {
               <app-todo-item 
                 [todoItem]="todo"
                 (toggle)="todosService.toggle(todo.id)" 
@@ -54,22 +54,10 @@ export class TodosComponent {
   todosService = inject(TodosService);
 
   filter = input<string>();
-  filteredTodos = computed(() => {
-    const filter = this.filter();
-    let filteredData = [];
-    switch (filter) {
-      case 'active':
-        filteredData = this.todosService.todos().filter(todo => !todo.completed);
-        break;
-      case 'completed':
-        filteredData = this.todosService.todos().filter(todo => todo.completed);
-        break;
-      default:
-        filteredData = this.todosService.todos();
-        break;
-    }
-    return filteredData;
-  });
+  filterEffectRef = effect(() => {
+    const filter = this.filter() || 'all';
+    this.todosService.filter.set(filter);
+  }, { allowSignalWrites: true });
 
 }
 
