@@ -29,7 +29,9 @@ import { TodosService } from '../todos.service';
         </li>
       </ul>
       <!-- Hidden if no completed items are left ↓ -->
-      <button class="clear-completed" (click)="clearCompleted.emit()">Clear completed</button>
+      @if(completedTodoCount() > 0){
+        <button class="clear-completed" (click)="clearCompleted.emit()">Clear completed</button>
+      }
     </footer>
   `,
   styles: ``,
@@ -41,5 +43,6 @@ export class FooterComponent {
 
   todosService = inject(TodosService);
   activeTodoCount = computed(() => this.todosService.todos().filter(todo => !todo.completed).length);
+  completedTodoCount = computed(() => this.todosService.todos().filter(todo => todo.completed).length);
 
 }
