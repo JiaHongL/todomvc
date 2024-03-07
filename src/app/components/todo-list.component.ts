@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject } from '@angular/core';
 
 import { HeaderComponent } from './header.component';
 import { FooterComponent } from './footer.component';
 import { InfoComponent } from './info.component';
 import { TodoItemComponent } from './todo-item.component';
 import { ToggleAllComponent } from './toggle-all.component';
+import { TodoService } from '../service/todo.service';
 
 @Component({
   selector: 'app-todo-list',
@@ -20,7 +21,7 @@ import { ToggleAllComponent } from './toggle-all.component';
   ],
   template: `
     <section class="todoapp">
-        <app-header/>
+        <app-header (addTodo)="todoService.add($event)" />
         <!-- This section should be hidden by default and shown when there are todos -->
         <section class="main">
           <app-toggle-all/>
@@ -37,4 +38,11 @@ import { ToggleAllComponent } from './toggle-all.component';
   styles: ``,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TodoListComponent { }
+export class TodoListComponent {
+  todoService = inject(TodoService);
+  updateLocalStorageEffectRef = effect(() => {
+    window.localStorage.setItem('todos', JSON.stringify(this.todoService.todo()));
+  });
+}
+
+

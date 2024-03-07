@@ -1,5 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, viewChild } from '@angular/core';
+import {
+  outputFromObservable
+} from '@angular/core/rxjs-interop';
+
+import { Subject } from 'rxjs';
+import { filter, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-header',
@@ -10,10 +16,26 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   template: `
     <header class="header">
       <h1>todos</h1>
-      <input class="new-todo" placeholder="What needs to be done?" autofocus>
+      <input 
+        #input 
+        class="new-todo" 
+        placeholder="What needs to be done?" 
+        autofocus
+        (keyup.enter)="valueChange$.next(input.value)"
+      >
     </header>
   `,
   styles: ``,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HeaderComponent { }
+export class HeaderComponent {
+  input = viewChild.required<ElementRef<HTMLInputElement>>('input');
+
+  valueChange$ = new Subject<string>();
+  
+  addTodo = outputFromObservable<string>(
+    this.valueChange$.asObservable().pipe(
+      filter((value) => !!value.trim()),
+      tap(() => this.input().nativeElement.value = ''), 
+  ));
+}
