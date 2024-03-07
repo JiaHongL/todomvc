@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, effect, inject, input } from '@angular/core';
 
 import { HeaderComponent } from './components/header.component';
@@ -13,7 +12,6 @@ import { TodosService } from './todos.service';
   selector: 'app-todo',
   standalone: true,
   imports: [
-    CommonModule,
     HeaderComponent,
     FooterComponent,
     InfoComponent,

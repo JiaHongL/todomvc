@@ -17,7 +17,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
       id="toggle-all" 
       class="toggle-all" 
       type="checkbox" 
-      (change)="emitToggleEvent()"
+      (change)="emitToggleAllEvent()"
     >
     <label for="toggle-all">Toggle All Input</label>
   `,
@@ -38,7 +38,7 @@ export class ToggleAllComponent {
 
   checkboxFormControl = new FormControl(this.isAllCompleted());
 
-  emitToggleEvent() {
+  emitToggleAllEvent() {
     const checked = this.checkboxFormControl.value || false;
     this.toggleAll.emit(checked);
   }

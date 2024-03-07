@@ -14,6 +14,4 @@ import { Component } from '@angular/core';
   `,
   styles: ``
 })
-export class InfoComponent {
-
-}
+export class InfoComponent {}

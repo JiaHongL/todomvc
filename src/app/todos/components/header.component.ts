@@ -10,9 +10,7 @@ import { filter, tap } from 'rxjs/operators';
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [
-    CommonModule,
-  ],
+  imports: [],
   template: `
     <header class="header">
       <h1>todos</h1>

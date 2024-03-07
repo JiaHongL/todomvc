@@ -8,7 +8,6 @@ import { TodosService } from '../todos.service';
   selector: 'app-footer',
   standalone: true,
   imports: [
-    CommonModule,
     RouterLink, 
     RouterLinkActive
   ],
