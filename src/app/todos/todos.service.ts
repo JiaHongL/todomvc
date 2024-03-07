@@ -4,7 +4,7 @@ import { TodoItem } from './models/todo-item.model';
 @Injectable({
   providedIn: 'root'
 })
-export class TodoService {
+export class TodosService {
   todos: WritableSignal<TodoItem[]> = signal(
     window.localStorage.getItem('todos') ? JSON.parse(window.localStorage.getItem('todos') as string) : []
   );

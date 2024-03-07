@@ -7,7 +7,7 @@ import { InfoComponent } from './components/info.component';
 import { TodoItemComponent } from './components/todo-item.component';
 import { ToggleAllComponent } from './components/toggle-all.component';
 
-import { TodoService } from './todo.service';
+import { TodosService } from './todos.service';
 
 @Component({
   selector: 'app-todo',
@@ -22,26 +22,26 @@ import { TodoService } from './todo.service';
   ],
   template: `
     <section class="todoapp">
-        <app-header (addTodo)="todoService.add($event)" />
+        <app-header (addTodo)="todosService.add($event)" />
         <!-- This section should be hidden by default and shown when there are todos -->
         <section class="main">
-          @if(todoService.todos().length > 0){
+          @if(todosService.todos().length > 0){
             <app-toggle-all/> 
           }
           <ul class="todo-list">
             <!-- These are here just to show the structure of the list items -->
-            @for (todo of todoService.todos(); track todo.id) {
+            @for (todo of todosService.todos(); track todo.id) {
               <app-todo-item 
                 [todoItem]="todo"
-                (toggle)="todoService.toggle(todo.id)" 
-                (delete)="todoService.delete(todo.id)"
-                (update)="todoService.update($event.id, $event.text)"
+                (toggle)="todosService.toggle(todo.id)" 
+                (delete)="todosService.delete(todo.id)"
+                (update)="todosService.update($event.id, $event.text)"
               />
             }
           </ul>
         </section>
         <!-- This footer should be hidden by default and shown when there are todos -->
-        @if(todoService.todos().length > 0){
+        @if(todosService.todos().length > 0){
           <app-footer/>
         }
     </section>
@@ -51,9 +51,9 @@ import { TodoService } from './todo.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TodosComponent {
-  todoService = inject(TodoService);
+  todosService = inject(TodosService);
   updateLocalStorageEffectRef = effect(() => {
-    window.localStorage.setItem('todos', JSON.stringify(this.todoService.todos()));
+    window.localStorage.setItem('todos', JSON.stringify(this.todosService.todos()));
   });
 }
 
