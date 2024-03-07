@@ -1,5 +1,5 @@
 import { Injectable, WritableSignal, signal } from '@angular/core';
-import { TodoItem } from '../models/todo-item.model';
+import { TodoItem } from './models/todo-item.model';
 
 @Injectable({
   providedIn: 'root'

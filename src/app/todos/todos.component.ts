@@ -1,16 +1,16 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, effect, inject } from '@angular/core';
 
-import { HeaderComponent } from './header.component';
-import { FooterComponent } from './footer.component';
-import { InfoComponent } from './info.component';
-import { TodoItemComponent } from './todo-item.component';
-import { ToggleAllComponent } from './toggle-all.component';
+import { HeaderComponent } from './components/header.component';
+import { FooterComponent } from './components/footer.component';
+import { InfoComponent } from './components/info.component';
+import { TodoItemComponent } from './components/todo-item.component';
+import { ToggleAllComponent } from './components/toggle-all.component';
 
-import { TodoService } from '../service/todo.service';
+import { TodoService } from './todo.service';
 
 @Component({
-  selector: 'app-todo-list',
+  selector: 'app-todo',
   standalone: true,
   imports: [
     CommonModule,
@@ -50,7 +50,7 @@ import { TodoService } from '../service/todo.service';
   styles: ``,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TodoListComponent {
+export class TodosComponent {
   todoService = inject(TodoService);
   updateLocalStorageEffectRef = effect(() => {
     window.localStorage.setItem('todos', JSON.stringify(this.todoService.todos()));

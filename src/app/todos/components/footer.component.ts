@@ -1,11 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'app-footer',
   standalone: true,
   imports: [
     CommonModule,
+    RouterLink, 
+    RouterLinkActive
   ],
   template: `
     <footer class="footer">
@@ -14,13 +17,13 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
       <!-- Remove this if you don't implement routing -->
       <ul class="filters">
         <li>
-          <a class="selected" href="#/">All</a>
+          <a routerLink="/all" routerLinkActive="selected">All</a>
         </li>
         <li>
-          <a href="#/active">Active</a>
+          <a routerLink="/active" routerLinkActive="selected">Active</a>
         </li>
         <li>
-          <a href="#/completed">Completed</a>
+          <a routerLink="/completed" routerLinkActive="selected">Completed</a>
         </li>
       </ul>
       <!-- Hidden if no completed items are left ↓ -->
