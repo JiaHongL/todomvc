@@ -1,4 +1,4 @@
-import { Injectable, WritableSignal, signal } from '@angular/core';
+import { Injectable, WritableSignal, effect, signal } from '@angular/core';
 import { TodoItem } from './models/todo-item.model';
 
 @Injectable({
@@ -9,7 +9,11 @@ export class TodosService {
     window.localStorage.getItem('todos') ? JSON.parse(window.localStorage.getItem('todos') as string) : []
   );
 
-  constructor() { }
+  isFirstTimeTriggered = true;
+  updateLocalStorageEffectRef = effect(() => {
+    const todosString = JSON.stringify(this.todos());
+    this.isFirstTimeTriggered ? this.isFirstTimeTriggered = false : window.localStorage.setItem('todos', todosString);
+  });
 
   add(text: any) {
     const newTodo = {

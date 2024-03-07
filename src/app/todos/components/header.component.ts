@@ -35,7 +35,8 @@ export class HeaderComponent {
   addTodo = outputFromObservable<string>(
     this.valueChange$.asObservable().pipe(
       filter((value) => !!value.trim()),
-      tap(() => this.input().nativeElement.value = ''), 
-  ));
-  
+      tap(() => this.input().nativeElement.value = ''),
+    )
+  );
+
 }

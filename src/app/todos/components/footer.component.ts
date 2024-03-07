@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, output } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { TodosService } from '../todos.service';
 
 @Component({
   selector: 'app-footer',
@@ -13,7 +14,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   template: `
     <footer class="footer">
       <!-- This should be 0 items left by default -->
-      <span class="todo-count"><strong>0</strong> item left</span>
+      <span class="todo-count"><strong>{{ activeTodoCount() }}</strong> item left</span>
       <!-- Remove this if you don't implement routing -->
       <ul class="filters">
         <li>
@@ -27,10 +28,17 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
         </li>
       </ul>
       <!-- Hidden if no completed items are left ↓ -->
-      <button class="clear-completed">Clear completed</button>
+      <button class="clear-completed" (click)="clearCompleted.emit()">Clear completed</button>
     </footer>
   `,
   styles: ``,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FooterComponent { }
+export class FooterComponent {
+
+  clearCompleted = output();
+
+  todosService = inject(TodosService);
+  activeTodoCount = computed(() => this.todosService.todos().filter(todo => !todo.completed).length);
+
+}
