@@ -5,7 +5,7 @@ import { TodoItem } from '../models/todo-item.model';
   providedIn: 'root'
 })
 export class TodoService {
-  todo: WritableSignal<TodoItem[]> = signal(
+  todos: WritableSignal<TodoItem[]> = signal(
     window.localStorage.getItem('todos') ? JSON.parse(window.localStorage.getItem('todos') as string) : []
   );
 
@@ -17,11 +17,24 @@ export class TodoService {
       completed: false,
       text
     };
-    this.todo.update(todos => [...todos, newTodo]);
+    this.todos.update(todos => [...todos, newTodo]);
+  }
+
+  delete(id: string) {
+    this.todos.update(todos => todos.filter(todo => todo.id !== id));
+  }
+
+  toggle(id: string) {
+    this.todos.update(todos => todos.map(todo => {
+      if (todo.id === id) {
+        return { ...todo, completed: !todo.completed };
+      }
+      return todo;
+    }));
   }
 
   update(id: string, text: string) {
-    this.todo.update(todos => todos.map(todo => {
+    this.todos.update(todos => todos.map(todo => {
       if (todo.id === id) {
         return { ...todo, text };
       }
@@ -30,7 +43,7 @@ export class TodoService {
   }
 
   clearCompleted() {
-    this.todo.update(todos => todos.filter(todo => !todo.completed));
+    this.todos.update(todos => todos.filter(todo => !todo.completed));
   }
 
   private generateGUID() {

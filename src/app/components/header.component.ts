@@ -32,10 +32,10 @@ export class HeaderComponent {
   input = viewChild.required<ElementRef<HTMLInputElement>>('input');
 
   valueChange$ = new Subject<string>();
-  
   addTodo = outputFromObservable<string>(
     this.valueChange$.asObservable().pipe(
       filter((value) => !!value.trim()),
       tap(() => this.input().nativeElement.value = ''), 
   ));
+  
 }
