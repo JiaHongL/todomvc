@@ -11,7 +11,6 @@ import { Component } from '@angular/core';
       <p>Created by <a href="https://github.com/JiaHongL/todomvc">JiaHongL</a></p>
       <p>Part of <a href="http://todomvc.com">TodoMVC</a></p>
     </footer>
-  `,
-  styles: ``
+  `
 })
 export class InfoComponent {}

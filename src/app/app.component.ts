@@ -7,9 +7,6 @@ import { RouterOutlet } from '@angular/router';
   imports: [RouterOutlet],
   template: `
     <router-outlet />
-  `,
-  styles: [],
+  `
 })
-export class AppComponent {
-  title = 'todomvc';
-}
+export class AppComponent {}

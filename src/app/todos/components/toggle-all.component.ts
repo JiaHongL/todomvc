@@ -1,9 +1,7 @@
-import { Component, effect, output, inject, computed } from '@angular/core';
+import { Component, effect, output, inject, computed, ChangeDetectionStrategy } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
 import { TodosService } from '../todos.service';
-
-import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-toggle-all',
@@ -21,7 +19,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
     >
     <label for="toggle-all">Toggle All Input</label>
   `,
-  styles: ``
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ToggleAllComponent {
   toggleAll = output<boolean>();

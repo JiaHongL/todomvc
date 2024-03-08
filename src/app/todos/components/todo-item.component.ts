@@ -1,4 +1,4 @@
-import { Component, ElementRef, Signal, computed, effect, input, output, signal, untracked, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, Signal, computed, effect, input, output, signal, viewChild } from '@angular/core';
 import { TodoItem } from '../models/todo-item.model';
 
 @Component({
@@ -26,7 +26,8 @@ import { TodoItem } from '../models/todo-item.model';
         >  
       </div>
     </li>
-  `
+  `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TodoItemComponent {
   todoItem = input.required<TodoItem>();

@@ -23,7 +23,6 @@ import { filter, tap } from 'rxjs/operators';
       >
     </header>
   `,
-  styles: ``,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderComponent {

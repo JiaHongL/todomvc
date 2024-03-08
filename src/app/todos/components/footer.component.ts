@@ -33,7 +33,6 @@ import { TodosService } from '../todos.service';
       }
     </footer>
   `,
-  styles: ``,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FooterComponent {
