@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, ElementRef, viewChild } from '@angular/core';
 import {
   outputFromObservable
