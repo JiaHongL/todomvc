@@ -1,12 +1,24 @@
-import { Injectable, WritableSignal, computed, effect, signal } from '@angular/core';
+import { Injectable, InjectionToken, WritableSignal, computed, effect, inject, signal } from '@angular/core';
 import { TodoItem } from './models/todo-item.model';
+
+export const WINDOW = new InjectionToken<Window>('WindowToken', {
+  factory: () => {
+    if(typeof window !== 'undefined') {
+      return window
+    }
+    return new Window();
+  }
+});
 
 @Injectable({
   providedIn: 'root'
 })
 export class TodosService {
+
+  window = inject(WINDOW);
+
   todos: WritableSignal<TodoItem[]> = signal(
-    window.localStorage.getItem('todos') ? JSON.parse(window.localStorage.getItem('todos') as string) : []
+    this.window.localStorage?.getItem('todos') ? JSON.parse(this.window?.localStorage?.getItem('todos') as string) : []
   );
 
   filter = signal('all');
