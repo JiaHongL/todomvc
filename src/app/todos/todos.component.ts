@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, effect, inject, input } from '@angu
 import { HeaderComponent } from './components/header.component';
 import { FooterComponent } from './components/footer.component';
 import { InfoComponent } from './components/info.component';
-import { TodoItemComponent } from './components/todo-item.component';
+import { TodoListComponent } from './components/todo-list.component';
 import { ToggleAllComponent } from './components/toggle-all.component';
 
 import { TodosService } from './todos.service';
@@ -15,7 +15,7 @@ import { TodosService } from './todos.service';
     HeaderComponent,
     FooterComponent,
     InfoComponent,
-    TodoItemComponent,
+    TodoListComponent,
     ToggleAllComponent
   ],
   template: `
@@ -26,17 +26,12 @@ import { TodosService } from './todos.service';
           @if(todosService.filteredTodos().length > 0){
             <app-toggle-all (toggleAll)="todosService.toggleAll($event)"/> 
           }
-          <ul class="todo-list">
-            <!-- These are here just to show the structure of the list items -->
-            @for (todo of todosService.filteredTodos(); track todo.id) {
-              <app-todo-item 
-                [todoItem]="todo"
-                (toggle)="todosService.toggle(todo.id)" 
-                (delete)="todosService.delete(todo.id)"
-                (update)="todosService.update($event.id, $event.text)"
-              />
-            }
-          </ul>
+          <app-todo-list
+            [todos]="todosService.filteredTodos()"
+            (toggle)="todosService.toggle($event.id)" 
+            (delete)="todosService.delete($event.id)"
+            (update)="todosService.update($event.id, $event.text)"
+          />
         </section>
         <!-- This footer should be hidden by default and shown when there are todos -->
         @if(todosService.todos().length > 0){
