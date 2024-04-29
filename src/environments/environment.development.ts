@@ -1,3 +1,4 @@
 export const environment = {
-    apiUrl: 'https://todomvc-backend.onrender.com/api',
+    production: false,
+    apiUrl: 'http://localhost:3000/api',
 };
