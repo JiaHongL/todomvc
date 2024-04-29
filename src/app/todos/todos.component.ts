@@ -57,6 +57,12 @@ export class TodosComponent {
     this.todosService.filter.set(filter);
   }, { allowSignalWrites: true });
 
+  constructor() {
+    this.todosService.getTodos$().subscribe((todos) => {
+      this.todosService.todos.set(todos);
+    });
+  }
+
 }
 
 

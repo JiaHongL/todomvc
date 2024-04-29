@@ -1,9 +1,12 @@
 import { Injectable, InjectionToken, WritableSignal, computed, effect, inject, signal } from '@angular/core';
 import { TodoItem } from './models/todo-item.model';
+import { environment } from '../../environments/environment';
+import { HttpClient } from '@angular/common/http';
+import { Observable, mergeMap } from 'rxjs';
 
 export const WINDOW = new InjectionToken<Window>('WindowToken', {
   factory: () => {
-    if(typeof window !== 'undefined') {
+    if (typeof window !== 'undefined') {
       return window
     }
     return new Window();
@@ -15,11 +18,13 @@ export const WINDOW = new InjectionToken<Window>('WindowToken', {
 })
 export class TodosService {
 
+  private api = environment.apiUrl + '/todos';
+
+  private http = inject(HttpClient);
+
   window = inject(WINDOW);
 
-  todos: WritableSignal<TodoItem[]> = signal(
-    this.window.localStorage?.getItem('todos') ? JSON.parse(this.window?.localStorage?.getItem('todos') as string) : []
-  );
+  todos: WritableSignal<TodoItem[]> = signal([]);
 
   filter = signal('all');
   filteredTodos = computed(() => {
@@ -40,61 +45,83 @@ export class TodosService {
   });
 
   isFirstTimeTriggered = true;
-  updateLocalStorageEffectRef = effect(() => {
-    const todosString = JSON.stringify(this.todos());
-    this.isFirstTimeTriggered ? this.isFirstTimeTriggered = false : window.localStorage.setItem('todos', todosString);
-  });
+  
+  // updateLocalStorageEffectRef = effect(() => {
+  //   const todosString = JSON.stringify(this.todos());
+  //   this.isFirstTimeTriggered ? this.isFirstTimeTriggered = false : window.localStorage.setItem('todos', todosString);
+  // });
+
+  getTodos$(): Observable<TodoItem[]> {
+    return this.http.get<TodoItem[]>(this.api);
+  }
 
   add(text: any) {
     const newTodo = {
-      id: this.generateGUID(),
       completed: false,
       text
     };
-    this.todos.update(todos => [...todos, newTodo]);
+    this.http.post<TodoItem>(this.api, newTodo).subscribe((res) => {
+      this.todos.update(todos => [...todos, res]);
+    });
   }
 
   delete(id: string) {
-    this.todos.update(todos => todos.filter(todo => todo.id !== id));
-  }
-
-  toggle(id: string) {
-    this.todos.update(todos => todos.map(todo => {
-      if (todo.id === id) {
-        return { ...todo, completed: !todo.completed };
-      }
-      return todo;
-    }));
-  }
-
-  toggleAll(checked: boolean) {
-    const filteredTodoIds = this.filteredTodos().map(todo => todo.id);
-    this.todos.update(todos => todos.map(item => {
-      if (filteredTodoIds.includes(item.id)) {
-        return { ...item, completed: checked };
-      }
-      return item;
-    }));
+    this.http.delete(this.api + '/' + id).pipe(
+      mergeMap(() => this.getTodos$())
+    ).subscribe((todos) => {
+      this.todos.set(todos);
+    });
   }
 
   update(id: string, text: string) {
-    this.todos.update(todos => todos.map(todo => {
-      if (todo.id === id) {
-        return { ...todo, text };
-      }
-      return todo;
-    }));
+    this.http.put<TodoItem>(this.api, {
+      id,
+      text
+    }).subscribe((res) => {
+      this.todos.update(todos => todos.map(todo => {
+        if (todo.id === res.id) {
+          return { ...todo, ...res };
+        }
+        return todo;
+      }));
+    });
+  }
+
+  toggle(id: string) {
+    let newTodo = this.todos().find(todo => todo.id === id);
+    if (newTodo) {
+      newTodo.completed = !newTodo.completed;
+    }
+    this.http.put<TodoItem>(this.api, newTodo).subscribe((res) => {
+      this.todos.update(todos => todos.map(todo => {
+        if (todo.id === res.id) {
+          return { ...todo, ...res };
+        }
+        return todo;
+      }));
+    });
+  }
+
+  toggleAll(checked: boolean) {
+    let newTodos = this.todos().map(todo => {
+      return { ...todo, completed: checked };
+    });
+    this.http.put<TodoItem[]>(this.api + '/batch', newTodos).subscribe((res) => {
+      this.todos.set(res);
+    });
   }
 
   clearCompleted() {
-    this.todos.update(todos => todos.filter(todo => !todo.completed));
-  }
-
-  private generateGUID() {
-    const s4 = () => Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
-    const timestamp = new Date().getTime();
-    const timeString = timestamp.toString(16);
-    return timeString + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4();
+    this.http.post(
+      this.api + '/delete/batch',
+      {
+        ids: this.todos().filter(todo => todo.completed).map(todo => todo.id)
+      }
+    ).pipe(
+      mergeMap(() => this.getTodos$())
+    ).subscribe((todos) => {
+      this.todos.set(todos);
+    });
   }
 
 }
