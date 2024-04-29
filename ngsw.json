@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1714402093431,
+  "timestamp": 1714402613220,
   "index": "/todomvc/index.html",
   "assetGroups": [
     {
@@ -43,7 +43,7 @@
     },
     {
       "name": "api",
-      "installMode": "prefetch",
+      "installMode": "lazy",
       "updateMode": "prefetch",
       "cacheQueryOptions": {
         "ignoreVary": true,
