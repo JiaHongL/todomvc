@@ -1,17 +1,17 @@
-import { Injectable, InjectionToken, WritableSignal, computed, effect, inject, signal } from '@angular/core';
+import { Injectable, WritableSignal, computed, inject, signal } from '@angular/core';
 import { TodoItem } from './models/todo-item.model';
 import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Observable, mergeMap } from 'rxjs';
 
-export const WINDOW = new InjectionToken<Window>('WindowToken', {
-  factory: () => {
-    if (typeof window !== 'undefined') {
-      return window
-    }
-    return new Window();
-  }
-});
+// export const WINDOW = new InjectionToken<Window>('WindowToken', {
+//   factory: () => {
+//     if (typeof window !== 'undefined') {
+//       return window
+//     }
+//     return new Window();
+//   }
+// });
 
 @Injectable({
   providedIn: 'root'
@@ -21,8 +21,6 @@ export class TodosService {
   private api = environment.apiUrl + '/todos';
 
   private http = inject(HttpClient);
-
-  window = inject(WINDOW);
 
   todos: WritableSignal<TodoItem[]> = signal([]);
 
@@ -46,6 +44,7 @@ export class TodosService {
 
   isFirstTimeTriggered = true;
   
+  // window = inject(WINDOW);
   // updateLocalStorageEffectRef = effect(() => {
   //   const todosString = JSON.stringify(this.todos());
   //   this.isFirstTimeTriggered ? this.isFirstTimeTriggered = false : window.localStorage.setItem('todos', todosString);

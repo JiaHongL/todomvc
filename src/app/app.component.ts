@@ -11,7 +11,7 @@ import { RouterOutlet } from '@angular/router';
   `
 })
 export class AppComponent {
-  meta =  inject(Meta);
+  meta = inject(Meta);
 
   constructor() {
     this.meta.addTag({ name: 'description', content: 'Angular TodoMVC use Signal + SSR + PWA'});
