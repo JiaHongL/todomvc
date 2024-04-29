@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1714403278992,
+  "timestamp": 1714403519841,
   "index": "/todomvc/index.html",
   "assetGroups": [
     {
@@ -11,11 +11,11 @@
         "ignoreVary": true
       },
       "urls": [
-        "/todomvc/chunk-367WV4ZT.js",
-        "/todomvc/chunk-6LU2P2IV.js",
+        "/todomvc/chunk-BGIRWM4X.js",
+        "/todomvc/chunk-TVEQYFI7.js",
         "/todomvc/favicon.ico",
         "/todomvc/index.html",
-        "/todomvc/main-CK6T6A66.js",
+        "/todomvc/main-J4IT3D6M.js",
         "/todomvc/manifest.webmanifest",
         "/todomvc/polyfills-RT5I6R6G.js",
         "/todomvc/styles-NTFQACJ7.css"
@@ -40,20 +40,6 @@
         "/todomvc/assets/icons/icon-96x96.png"
       ],
       "patterns": []
-    },
-    {
-      "name": "api",
-      "installMode": "prefetch",
-      "updateMode": "prefetch",
-      "cacheQueryOptions": {
-        "ignoreVary": true,
-        "ignoreSearch": true
-      },
-      "urls": [],
-      "patterns": [
-        "http:\\/\\/localhost:3000\\/api\\/[^/]*",
-        "https:\\/\\/todomvc-backend\\.onrender\\.com\\/api"
-      ]
     }
   ],
   "dataGroups": [],
@@ -66,11 +52,11 @@
     "/todomvc/assets/icons/icon-512x512.png": "1de182f76f7329dfa8f9fcdd1fdcdd695bea6a99",
     "/todomvc/assets/icons/icon-72x72.png": "aa88a6096bd973be7f6d7a5489bfa6bc2463f8c4",
     "/todomvc/assets/icons/icon-96x96.png": "7fb8f59c30ce2ff12c700321a0b39e14b3dc8f95",
-    "/todomvc/chunk-367WV4ZT.js": "660467e2205d8a246e870294def0ff358d85964d",
-    "/todomvc/chunk-6LU2P2IV.js": "ad44250b768819933c887c0ed36db78472ab5284",
+    "/todomvc/chunk-BGIRWM4X.js": "b064635c400f65912c55ec4b5dcf63f3a1bbe020",
+    "/todomvc/chunk-TVEQYFI7.js": "fba1176aff1ee7620e18c5e7a8e1f44e65727185",
     "/todomvc/favicon.ico": "9c39f434fe1261f68c5e3eefdf734630d99c5670",
-    "/todomvc/index.html": "5f124d15025c3dc3511c8547f921d3e148ba7bc6",
-    "/todomvc/main-CK6T6A66.js": "bdcbf83355667352f9ed0d0ddae2be254a2cfe3d",
+    "/todomvc/index.html": "fc7bb8dcec46a514e6efa88acb083c74831be545",
+    "/todomvc/main-J4IT3D6M.js": "715b0c9d8834a560dd2928f68b4ff12140320883",
     "/todomvc/manifest.webmanifest": "a45e2fa4d45df135b5abf239e0e4c829723128ae",
     "/todomvc/polyfills-RT5I6R6G.js": "fe9f024576f21ff6314cf8f8332cde58b9a12416",
     "/todomvc/styles-NTFQACJ7.css": "97112e189375e01046bae782b3924e99c019f22e"
