@@ -27,7 +27,7 @@ import { TodoItem } from '../models/todo-item.model';
               [value]="todo.text"
               (focus)="focusId.set(todo.id);"
               (blur)="focusId.set('');input.value = todo.text;"
-              (keyup.enter)="focusId.set('');update.emit({id: todo.id, text: input.value});"
+              (keyup.enter)="focusId.set(''); todo.text=input.value;update.emit({id: todo.id, text: input.value});"
             >  
           </div>
         </li>
