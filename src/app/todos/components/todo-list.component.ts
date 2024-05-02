@@ -27,7 +27,7 @@ import { TodoItem } from '../models/todo-item.model';
               [value]="todo.text"
               (focus)="focusId.set(todo.id);"
               (blur)="focusId.set('');input.value = todo.text;"
-              (keyup.enter)="focusId.set(''); todo.text=input.value;update.emit({id: todo.id, text: input.value});"
+              (keydown.enter)="onEnter($event, i);"
             >  
           </div>
         </li>
@@ -67,5 +67,15 @@ export class TodoListComponent {
       });
     }
   });
+
+  onEnter(event:Event, index:number){
+    if((event as KeyboardEvent).isComposing){
+      return;
+    }
+    this.focusId.set('');
+    let todo = this.todos()[index];
+    todo.text = (event.target as HTMLInputElement).value;
+    this.update.emit({id: todo.id, text: todo.text});
+  }
 
 }
