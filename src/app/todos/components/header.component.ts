@@ -18,7 +18,7 @@ import { filter, tap } from 'rxjs/operators';
         class="new-todo" 
         placeholder="What needs to be done?" 
         autofocus
-        (keyup.enter)="valueChange$.next(input.value)"
+        (keydown.enter)="onEnter($event)"
       >
     </header>
   `,
@@ -35,4 +35,10 @@ export class HeaderComponent {
     )
   );
 
+  onEnter(event:Event){
+    if((event as KeyboardEvent).isComposing){
+      return;
+    }
+    this.valueChange$.next(this.input().nativeElement.value)
+  }
 }
