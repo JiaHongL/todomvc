@@ -5,7 +5,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 ## SPA VS SSR
 
 - SPA：https://jiahongl.github.io/todomvc/#/all
-- SSR：https://todomvc-i2at.onrender.com/#/all
+- SSR：https://todomvc-r0e6.onrender.com/#/all
 
 ## LightHouse
 
